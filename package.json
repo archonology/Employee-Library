@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "inquirer": "^8.2.4"
   },
   "bugs": {
     "url": "https://github.com/archonology/Employee-Library/issues"
