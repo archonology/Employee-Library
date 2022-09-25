@@ -53,14 +53,13 @@ function init() {
           "delete an employee",
           new inquirer.Separator(),
           "I'm finished at the library",
-          new inquirer.Separator()
+          new inquirer.Separator(),
         ],
       },
     ])
     .then((answers) => {
-
-    //   console.log(answers);
-    //   console.log(answers.userSelect);
+      //   console.log(answers);
+      //   console.log(answers.userSelect);
 
       let rootQ = answers.userSelect;
       switch (rootQ) {
@@ -102,7 +101,7 @@ function init() {
         case (rootQ = "delete an employee"):
           deleteEmployee();
           break;
-        
+
         //closing case
         case (rootQ = "I'm finished at the library"):
           leaveLibrary();
@@ -119,7 +118,7 @@ function init() {
 function viewAllDepartments() {
   db.query("SELECT * FROM department", function (err, results) {
     console.log("\n");
-    console.table('All Departments', results);
+    console.table("All Departments", results);
     console.log("\n");
     init();
   });
@@ -128,7 +127,7 @@ function viewAllDepartments() {
 function viewAllRoles() {
   db.query("SELECT * FROM role", function (err, results) {
     console.log("\n");
-    console.table('Employee Roles',results);
+    console.table("Employee Roles", results);
     console.log("\n");
     init();
   });
@@ -137,24 +136,86 @@ function viewAllRoles() {
 function viewAllEmployees() {
   db.query("SELECT * FROM employees", function (err, results) {
     console.log("\n");
-    console.table('Employee List',results);
+    console.table("Employee List", results);
     console.log("\n");
     init();
   });
 }
 
 //add functions
-function addDepartment() {db.query();}
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What department are you adding?",
+        name: "newDept",
+      },
+    ])
+    .then((answer) => {
+    //   console.log(answer);
+    //   console.log(answer.newDept);
 
-function addRole() {db.query();}
+      db.query(
+        "INSERT INTO department(name) VALUES (?)",
+        answer.newDept,
+        (err, data) =>
+          err ? err : console.log("\n Sorry, there ware a problem with your request. \n")
+
+      );
+      console.log("\n New department added successfully. \n");
+      init();
+    });
+}
+
+function addRole() {
+    inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What role are you adding?",
+        name: "newRole",
+      },
+      {
+        type: "number",
+        message: "What is the salary for the new role?",
+        name: "salary",
+      },
+      {
+        type: "number",
+        message: "What department is the role in?",
+        //how to create an index of the current departments?
+        name: "deptId",
+      },
+    ])
+    .then((answer) => {
+    //   console.log(answer);
+    //   console.log(`'${answer.newRole}'`);
+    //   console.log(answer.salary);
+    //   console.log(answer.deptId);
+
+      db.query(
+        "INSERT INTO role (title, salary, department_id)VALUES " + "(" + "'" + answer.newRole + "'" + ", " + answer.salary + ", " + answer.deptId + ")",
+        (err, data) =>
+          err ? err : console.log("\n Sorry, there ware a problem with your request. \n")
+
+      );
+      console.log("\n New role added successfully. \n");
+      init();
+    });
+}
 
 function addEmployee() {
   db.query();
 }
 //delete functions
-function deleteDepartment() {db.query();}
+function deleteDepartment() {
+  db.query();
+}
 
-function deleteRole() {db.query();}
+function deleteRole() {
+  db.query();
+}
 
 function deleteEmployee() {
   db.query();
@@ -162,8 +223,10 @@ function deleteEmployee() {
 
 //leave library
 function leaveLibrary() {
-    console.log("\n \n Thanks for visiting the Employee Library! Run `npm start` to visit again. \n \n");
-    process.exit();
+  console.log(
+    "\n \n Thanks for visiting the Employee Library! Run `npm start` to visit again. \n \n"
+  );
+  process.exit();
 }
 
 //delete route
