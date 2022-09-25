@@ -19,10 +19,20 @@ VALUES ("Developer", 90000, 1),
 
 INSERT INTO employee (employee_id, first_name, last_name, role_id)
 VALUES (001, "Anika", "Kelijk", 1),
-       (002, "Mia", "Collins", 1),
-       (003, "Hannah", "Gestalt", 1),
-       (004, "Gordon", "Speakswell", 1),
-       (005, "Caleb", "Greenthumb", 1),
-       (006, "Sheena", "Countill", 1),
-       (007, "Billy", "Insta", 1),
-       (008, "Gillian", "Vector", 1);
+       (002, "Mia", "Collins", 2),
+       (003, "Hannah", "Gestalt", 5),
+       (004, "Gordon", "Speakswell", 4),
+       (005, "Caleb", "Greenthumb", 5),
+       (006, "Sheena", "Countill", 6),
+       (007, "Billy", "Insta", 7),
+       (008, "Gillian", "Vector", 8);
+
+UPDATE employee SET manager_id = 004 WHERE last_name = 'Insta';
+
+UPDATE employee SET manager_id = 004 WHERE last_name = 'Countill';
+
+UPDATE employee SET manager_id = 004 WHERE last_name = 'Greenthumb';
+
+UPDATE employee SET manager_id = 001 WHERE last_name = 'Collins';
+
+UPDATE employee SET manager_id = 003 WHERE last_name = 'Vector';
