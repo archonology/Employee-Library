@@ -21,7 +21,7 @@ CREATE TABLE role (
   ON DELETE SET NULL
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
   employee_id INT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE employee (
   manager_id INT
 );
 
-ALTER TABLE employee
+ALTER TABLE employees
    ADD CONSTRAINT sr_fk_emp_man 
    FOREIGN KEY (manager_id)
    REFERENCES employee(employee_id)

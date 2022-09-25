@@ -37,8 +37,8 @@ function init() {
     .prompt([
       {
         type: "list",
-        name: "rootList",
-        message: "Welcome to the Employee library. What would you like to do?",
+        name: "userSelect",
+        message: "This is the employee library. What would you like to do?",
         choices: [
           "view all departments",
           "view all roles",
@@ -51,51 +51,61 @@ function init() {
           "delete a department",
           "delete a role",
           "delete an employee",
+          new inquirer.Separator(),
+          "I'm finished at the library",
           new inquirer.Separator()
         ],
       },
     ])
     .then((answers) => {
-      const rootList = answers.rootList;
-      console.log(rootList);
-      switch (rootList) {
+
+    //   console.log(answers);
+    //   console.log(answers.userSelect);
+
+      let rootQ = answers.userSelect;
+      switch (rootQ) {
         //viewing records
-        case (rootList = "view all departments"):
+        case (rootQ = "view all departments"):
           viewAllDepartments();
           break;
 
-        case (rootList = "view all view all roles"):
+        case (rootQ = "view all roles"):
           viewAllRoles();
           break;
 
-        case (rootList = "view all employees"):
+        case (rootQ = "view all employees"):
           viewAllEmployees();
           break;
 
         //adding records
-        case (rootList = "add a department"):
+        case (rootQ = "add a department"):
           addDepartment();
           break;
 
-        case (rootList = "add a role"):
+        case (rootQ = "add a role"):
           addRole();
           break;
 
-        case (rootList = "add an employee"):
+        case (rootQ = "add an employee"):
           addEmployee();
           break;
 
         //deleting records
-        case (rootList = "delete a department"):
+        case (rootQ = "delete a department"):
           deleteDepartment();
           break;
 
-        case (rootList = "delete a role"):
+        case (rootQ = "delete a role"):
           deleteRole();
           break;
 
-        case (rootList = "delete an employee"):
+        case (rootQ = "delete an employee"):
           deleteEmployee();
+          break;
+        
+        //closing case
+        case (rootQ = "I'm finished at the library"):
+          leaveLibrary();
           break;
       }
     })
@@ -106,50 +116,56 @@ function init() {
     });
 }
 
-//routes -- how do I have the tables returned? (instead of list of objects)
-
 function viewAllDepartments() {
-db.query("SELECT * FROM department", function (err, results) {
-  console.table([results]);
-  init();
-});
+  db.query("SELECT * FROM department", function (err, results) {
+    console.log("\n");
+    console.table('All Departments', results);
+    console.log("\n");
+    init();
+  });
 }
 
 function viewAllRoles() {
-db.query("SELECT * FROM role", function (err, results) {
-  console.log(results);
-  init();
-});
+  db.query("SELECT * FROM role", function (err, results) {
+    console.log("\n");
+    console.table('Employee Roles',results);
+    console.log("\n");
+    init();
+  });
 }
 
 function viewAllEmployees() {
-db.query("SELECT * FROM employees", function (err, results) {
-  console.log(results);
-  init();
-});
+  db.query("SELECT * FROM employees", function (err, results) {
+    console.log("\n");
+    console.table('Employee List',results);
+    console.log("\n");
+    init();
+  });
 }
 
-function addDepartment() {
+//add functions
+function addDepartment() {db.query();}
 
-}
-
-function addRole() {
-
-}
+function addRole() {db.query();}
 
 function addEmployee() {
-db.query()
+  db.query();
+}
+//delete functions
+function deleteDepartment() {db.query();}
+
+function deleteRole() {db.query();}
+
+function deleteEmployee() {
+  db.query();
 }
 
-db.query("SELECT * FROM role", function (err, results) {
-    console.table(results);
-});
+//leave library
+function leaveLibrary() {
+    console.log("\n \n Thanks for visiting the Employee Library! Run `npm start` to visit again. \n \n");
+    process.exit();
+}
 
-db.query("SELECT * FROM employee", function (err, results) {
-    console.table(results);
-});
-
-init();
 //delete route
 // db.query(`DELETE FROM employees WHERE id = ?`, 3, (err, result) => {
 //     if (err) {
@@ -157,8 +173,4 @@ init();
 //     }
 //     console.log(result);
 //   });
-
-//listening port for testing
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
+init();

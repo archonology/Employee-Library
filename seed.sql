@@ -17,7 +17,7 @@ VALUES ("Developer", 90000, 1),
        ("Social Media Specialist", 45000, 4),
        ("Graphic Designer", 50000, 3);
 
-INSERT INTO employee (employee_id, first_name, last_name, role_id)
+INSERT INTO employees (employee_id, first_name, last_name, role_id)
 VALUES (001, "Anika", "Kelijk", 1),
        (002, "Mia", "Collins", 2),
        (003, "Hannah", "Gestalt", 5),
@@ -27,12 +27,12 @@ VALUES (001, "Anika", "Kelijk", 1),
        (007, "Billy", "Insta", 7),
        (008, "Gillian", "Vector", 8);
 
-UPDATE employee SET manager_id = 004 WHERE last_name = 'Insta';
+UPDATE employees SET manager_id = 004 WHERE last_name = 'Insta';
 
-UPDATE employee SET manager_id = 004 WHERE last_name = 'Countill';
+UPDATE employees SET manager_id = 004 WHERE last_name = 'Countill';
 
-UPDATE employee SET manager_id = 004 WHERE last_name = 'Greenthumb';
+UPDATE employees SET manager_id = 004 WHERE last_name = 'Greenthumb';
 
-UPDATE employee SET manager_id = 001 WHERE last_name = 'Collins';
+UPDATE employees SET manager_id = 001 WHERE last_name = 'Collins';
 
-UPDATE employee SET manager_id = 003 WHERE last_name = 'Vector';
+UPDATE employees SET manager_id = 003 WHERE last_name = 'Vector';
