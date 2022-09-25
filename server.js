@@ -1,7 +1,8 @@
 //dependencies
 const express = require("express");
 const mysql = require("mysql2");
-const inquirer = require('inquirer');
+const inquirer = require("inquirer");
+const cTable = require("console.table");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
@@ -30,14 +31,14 @@ app.use((req, res) => {
 
 //view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
-//inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES. 
-function init () {
-inquirer
-  .prompt([
-    {
+//inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES.
+function init() {
+  inquirer
+    .prompt([
+      {
         type: "list",
         name: "rootList",
-        message: "Welcome to the Employee library. What would you like to do today?",
+        message: "Welcome to the Employee library. What would you like to do?",
         choices: [
           "view all departments",
           "view all roles",
@@ -49,40 +50,106 @@ inquirer
           new inquirer.Separator(),
           "delete a department",
           "delete a role",
-          "delete an employee"
+          "delete an employee",
+          new inquirer.Separator()
         ],
       },
-  ])
-  .then((answers) => {
-    // Use user feedback for... whatever!!
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+    ])
+    .then((answers) => {
+      const rootList = answers.rootList;
+      console.log(rootList);
+      switch (rootList) {
+        //viewing records
+        case (rootList = "view all departments"):
+          viewAllDepartments();
+          break;
+
+        case (rootList = "view all view all roles"):
+          viewAllRoles();
+          break;
+
+        case (rootList = "view all employees"):
+          viewAllEmployees();
+          break;
+
+        //adding records
+        case (rootList = "add a department"):
+          addDepartment();
+          break;
+
+        case (rootList = "add a role"):
+          addRole();
+          break;
+
+        case (rootList = "add an employee"):
+          addEmployee();
+          break;
+
+        //deleting records
+        case (rootList = "delete a department"):
+          deleteDepartment();
+          break;
+
+        case (rootList = "delete a role"):
+          deleteRole();
+          break;
+
+        case (rootList = "delete an employee"):
+          deleteEmployee();
+          break;
+      }
+    })
+    .catch((error) => {
+      if (error.isTtyError) {
+      } else {
+      }
+    });
 }
 
 //routes -- how do I have the tables returned? (instead of list of objects)
-db.query("SELECT * FROM department", function (err, results) {
-  console.log(results);
-});
 
+function viewAllDepartments() {
+db.query("SELECT * FROM department", function (err, results) {
+  console.table([results]);
+  init();
+});
+}
+
+function viewAllRoles() {
 db.query("SELECT * FROM role", function (err, results) {
   console.log(results);
+  init();
 });
+}
 
+function viewAllEmployees() {
 db.query("SELECT * FROM employees", function (err, results) {
   console.log(results);
+  init();
 });
-//see how many employees there are
-db.query('SELECT COUNT(employee_id) AS total_count FROM employees GROUP BY last_name', function (err, results) {
-    console.log(results);
-  });
+}
 
-init ();
+function addDepartment() {
+
+}
+
+function addRole() {
+
+}
+
+function addEmployee() {
+db.query()
+}
+
+db.query("SELECT * FROM role", function (err, results) {
+    console.table(results);
+});
+
+db.query("SELECT * FROM employee", function (err, results) {
+    console.table(results);
+});
+
+init();
 //delete route
 // db.query(`DELETE FROM employees WHERE id = ?`, 3, (err, result) => {
 //     if (err) {
@@ -92,6 +159,6 @@ init ();
 //   });
 
 //listening port for testing
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
