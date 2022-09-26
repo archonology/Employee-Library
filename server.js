@@ -153,15 +153,18 @@ function addDepartment() {
       },
     ])
     .then((answer) => {
-    //   console.log(answer);
-    //   console.log(answer.newDept);
+      //   console.log(answer);
+      //   console.log(answer.newDept);
 
       db.query(
         "INSERT INTO department(name) VALUES (?)",
         answer.newDept,
         (err, data) =>
-          err ? err : console.log("\n Sorry, there ware a problem with your request. \n")
-
+          err
+            ? err
+            : console.log(
+                "\n Sorry, there ware a problem with your request. \n"
+              )
       );
       console.log("\n New department added successfully. \n");
       init();
@@ -169,7 +172,7 @@ function addDepartment() {
 }
 
 function addRole() {
-    inquirer
+  inquirer
     .prompt([
       {
         type: "input",
@@ -189,16 +192,28 @@ function addRole() {
       },
     ])
     .then((answer) => {
-    //   console.log(answer);
-    //   console.log(`'${answer.newRole}'`);
-    //   console.log(answer.salary);
-    //   console.log(answer.deptId);
+      //   console.log(answer);
+      //   console.log(`'${answer.newRole}'`);
+      //   console.log(answer.salary);
+      //   console.log(answer.deptId);
 
       db.query(
-        "INSERT INTO role (title, salary, department_id)VALUES " + "(" + "'" + answer.newRole + "'" + ", " + answer.salary + ", " + answer.deptId + ")",
+        "INSERT INTO role (title, salary, department_id)VALUES " +
+          "(" +
+          "'" +
+          answer.newRole +
+          "'" +
+          ", " +
+          answer.salary +
+          ", " +
+          answer.deptId +
+          ")",
         (err, data) =>
-          err ? err : console.log("\n Sorry, there ware a problem with your request. \n")
-
+          err
+            ? err
+            : console.log(
+                "\n Sorry, there ware a problem with your request. \n"
+              )
       );
       console.log("\n New role added successfully. \n");
       init();
@@ -206,7 +221,73 @@ function addRole() {
 }
 
 function addEmployee() {
-  db.query();
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the new employee's first name?",
+        name: "firstName",
+      },
+      {
+        type: "input",
+        message: "What is their last name?",
+        name: "lastName",
+      },
+      {
+        type: "number",
+        message: "What is their role id?",
+        //how to create an index of the current departments?
+        name: "roleID",
+      },
+      {
+        type: "number",
+        message: "What is their managerls id?",
+        //how to create an index of the managers?
+        name: "managerID",
+      },
+    ])
+    .then((answer) => {
+      //   console.log(answer);
+      //   console.log(`'${answer.newRole}'`);
+      //   console.log(answer.salary);
+      //   console.log(answer.deptId);
+
+      db.query(
+        "INSERT INTO employees (first_name, last_name, role_id)VALUES " +
+          "(" +
+          "'" +
+          answer.firstName +
+          "'" +
+          ", " +
+          answer.lastName +
+          ", " +
+          answer.roleID +
+          ")",
+        (err, data) =>
+          err
+            ? err
+            : console.log(
+                "\n Sorry, there ware a problem with your request. \n"
+              )
+      );
+      db.query(
+        "UPDATE employees SET manager_id = " +
+          answer.managerID +
+          " WHERE last_name = " +
+          answer.lastName +
+          ")",
+        (err, data) =>
+          err
+            ? err
+            : console.log(
+                "\n Sorry, there ware a problem with your request. \n"
+              )
+      );
+
+      console.log("\n New employee added successfully. \n");
+
+      init();
+    });
 }
 //delete functions
 function deleteDepartment() {

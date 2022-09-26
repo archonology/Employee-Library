@@ -22,7 +22,7 @@ CREATE TABLE role (
 );
 
 CREATE TABLE employees (
-  employee_id INT PRIMARY KEY,
+  employee_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT,
@@ -32,16 +32,9 @@ CREATE TABLE employees (
   manager_id INT
 );
 
+-- alters the table to include manager key
 ALTER TABLE employees
    ADD CONSTRAINT sr_fk_emp_man 
    FOREIGN KEY (manager_id)
    REFERENCES employee(employee_id)
 ;
-
--- CREATE TABLE employee (
--- employee_id int PRIMARY KEY, 
--- employee_name varchar(30), 
--- salary varchar(30), 
--- manager_id int, 
--- CONSTRAINT sr_fk_emp_man FOREIGN KEY (manager_id) REFERENCES employee(employee_id)
--- );
