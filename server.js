@@ -241,7 +241,7 @@ function addEmployee() {
       },
       {
         type: "number",
-        message: "What is their managerls id?",
+        message: "What is their manager's id?",
         //how to create an index of the managers?
         name: "managerID",
       },
@@ -270,19 +270,19 @@ function addEmployee() {
                 "\n Sorry, there ware a problem with your request. \n"
               )
       );
-      db.query(
-        "UPDATE employees SET manager_id = " +
-          answer.managerID +
-          " WHERE last_name = " +
-          answer.lastName +
-          ")",
-        (err, data) =>
-          err
-            ? err
-            : console.log(
-                "\n Sorry, there ware a problem with your request. \n"
-              )
-      );
+
+        db.query(
+            "UPDATE employees SET manager_id = " +
+              answer.managerID +
+              " WHERE last_name = " +
+              answer.lastName,
+            (err, data) =>
+              err
+                ? err
+                : console.log(
+                    "\n Sorry, there ware a problem with your request. \n"
+                  )
+          );
 
       console.log("\n New employee added successfully. \n");
 

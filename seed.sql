@@ -17,22 +17,12 @@ VALUES ("Developer", 90000, 1),
        ("Social Media Specialist", 45000, 4),
        ("Graphic Designer", 50000, 3);
 
-INSERT INTO employees (employee_id, first_name, last_name, role_id)
-VALUES (001, "Anika", "Kelijk", 1),
-       (002, "Mia", "Collins", 2),
-       (003, "Hannah", "Gestalt", 5),
-       (004, "Gordon", "Speakswell", 4),
-       (005, "Caleb", "Greenthumb", 5),
-       (006, "Sheena", "Countill", 6),
-       (007, "Billy", "Insta", 7),
-       (008, "Gillian", "Vector", 8);
-
-UPDATE employees SET manager_id = 004 WHERE last_name = 'Insta';
-
-UPDATE employees SET manager_id = 004 WHERE last_name = 'Countill';
-
-UPDATE employees SET manager_id = 004 WHERE last_name = 'Greenthumb';
-
-UPDATE employees SET manager_id = 001 WHERE last_name = 'Collins';
-
-UPDATE employees SET manager_id = 003 WHERE last_name = 'Vector';
+INSERT INTO employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (1, "Anika", "Kelijk", 1, NULL),
+       (2, "Mia", "Collins", 2, 1),
+       (3, "Hannah", "Gestalt", 5, NULL),
+       (4, "Gordon", "Speakswell", 4, NULL),
+       (5, "Caleb", "Greenthumb", 5, 3),
+       (6, "Sheena", "Countill", 6, 4),
+       (7, "Billy", "Insta", 7, 1),
+       (8, "Gillian", "Vector", 8, 3);

@@ -22,19 +22,18 @@ CREATE TABLE role (
 );
 
 CREATE TABLE employees (
-  employee_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  employee_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT,
+  CONSTRAINT fk_role
    FOREIGN KEY (role_id)
   REFERENCES role(role_id)
   ON DELETE SET NULL,
-  manager_id INT
+  manager_id INT,
+  CONSTRAINT fk_manager
+   FOREIGN KEY (manager_id)
+   REFERENCES employees(employee_id)
+    ON DELETE SET NULL
 );
 
--- alters the table to include manager key
-ALTER TABLE employees
-   ADD CONSTRAINT sr_fk_emp_man 
-   FOREIGN KEY (manager_id)
-   REFERENCES employee(employee_id)
-;
