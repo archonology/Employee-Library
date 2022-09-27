@@ -172,6 +172,8 @@ function addDepartment() {
 }
 
 function addRole() {
+    //object that holds the index of departments
+    let deptList = db.query()
   inquirer
     .prompt([
       {

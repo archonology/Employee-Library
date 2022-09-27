@@ -17,12 +17,12 @@ VALUES ("Developer", 90000, 1),
        ("Social Media Specialist", 45000, 4),
        ("Graphic Designer", 50000, 3);
 
-INSERT INTO employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (1, "Anika", "Kelijk", 1, NULL),
-       (2, "Mia", "Collins", 2, 1),
-       (3, "Hannah", "Gestalt", 5, NULL),
-       (4, "Gordon", "Speakswell", 4, NULL),
-       (5, "Caleb", "Greenthumb", 5, 3),
-       (6, "Sheena", "Countill", 6, 4),
-       (7, "Billy", "Insta", 7, 1),
-       (8, "Gillian", "Vector", 8, 3);
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("Anika", "Kelijk", 1, NULL),
+       ("Mia", "Collins", 2, 1),
+       ("Hannah", "Gestalt", 5, NULL),
+       ("Gordon", "Speakswell", 4, NULL),
+       ("Caleb", "Greenthumb", 5, 3),
+       ("Sheena", "Countill", 6, 4),
+       ("Billy", "Insta", 7, 1),
+       ("Gillian", "Vector", 8, 3);
