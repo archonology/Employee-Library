@@ -41,10 +41,15 @@ function init() {
           "view all departments",
           "view all roles",
           "view all employees",
+          "view all managers",
+          "view employees by department",
           new inquirer.Separator(),
           "add a department",
           "add a role",
           "add an employee",
+          new inquirer.Separator(),
+          "update an employee role",
+          "update an employee manager",
           new inquirer.Separator(),
           "delete a department",
           "delete a role",
@@ -72,6 +77,14 @@ function init() {
           viewAllEmployees();
           break;
 
+        case (rootQ = "view all managers"):
+            viewAllManagers();
+            break;
+
+            // case (rootQ = "view employees by department"):
+            // viewAllEmpByDept();
+            // break;
+
         //adding records
         case (rootQ = "add a department"):
           addDepartment();
@@ -83,6 +96,14 @@ function init() {
 
         case (rootQ = "add an employee"):
           addEmployee();
+          break;
+
+        //update an employee role
+        case (rootQ = "update an employee role"):
+          updateEmpRole();
+          break;
+          case (rootQ = "update an employee manager"):
+          updateEmpManager();
           break;
 
         //deleting records
@@ -138,6 +159,15 @@ function viewAllEmployees() {
     init();
   });
 }
+
+function viewAllManagers() {
+    db.query(`SELECT * FROM employees WHERE manager_id IS NULL`, function (err, results) {
+        console.log("\n");
+        console.table("All Managers", results);
+        console.log("\n");
+        init();
+      });
+    }
 
 //ADD functions
 function addDepartment() {
@@ -227,12 +257,12 @@ function addEmployee() {
       },
       {
         type: "number",
-        message: "What is their role id?",
+        message: "What is their role_id?",
         name: "roleId",
       },
       {
         type: "number",
-        message: "What is their manager's employee id?",
+        message: "What is their manager's employee_id?",
         name: "managerId",
       },
     ])
@@ -249,6 +279,84 @@ function addEmployee() {
       init();
     });
 }
+
+//update function
+function updateEmpRole() {
+    //view roles for reference
+    db.query(`SELECT * FROM role`, function (err, results) {
+        console.log("\n");
+        console.table("Available Roles for the New Employee", results);
+      });
+      //view employees for reference
+      db.query(`SELECT * FROM employees`, function (err, results) {
+        console.log("\n");
+        console.table("All Employees", results);
+      });
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the employee's last name?",
+        name: "lastName",
+      },
+      {
+        type: "number",
+        message: "What is their new role id?",
+        name: "roleId",
+      },
+    ])
+    .then((answer) => {
+
+      db.query(
+        `UPDATE employees SET role_id = (?) WHERE last_name = '${answer.lastName}'`, answer.roleId,
+        (err, data) =>
+          err
+            ? err
+            : console.log(err)
+      );
+      console.log("\n Employee role updated successfully. \n")
+      init();
+    });
+}
+
+function updateEmpManager() {
+   //view managers for reference
+   db.query(`SELECT * FROM employees WHERE manager_id IS NULL`, function (err, results) {
+    console.log("\n");
+    console.table("All Managers", results);
+  });
+      //view employees (minus the managers) for reference
+      db.query(`SELECT * FROM employees WHERE manager_id IS NOT NULL`, function (err, results) {
+        console.log("\n");
+        console.table("All Employees", results);
+      });
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the employee's last name?",
+        name: "lastName",
+      },
+      {
+        type: "number",
+        message: "What is their new manager's employee_id?",
+        name: "managerId",
+      },
+    ])
+    .then((answer) => {
+
+      db.query(
+        `UPDATE employees SET manager_id = (?) WHERE last_name = '${answer.lastName}'`, answer.managerId,
+        (err, data) =>
+          err
+            ? err
+            : console.log(err)
+      );
+      console.log("\n Employee manager updated successfully. \n")
+      init();
+    });
+}
+
 //delete functions
 function deleteDepartment() {
     db.query(`SELECT * FROM department`, function (err, results) {
@@ -336,16 +444,4 @@ function leaveLibrary() {
 
 init();
 
-//view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
-//testing data returned
-// let getRoleTitle = function () {
-//   db.query(`SELECT title FROM role`, (err, data) => {
-//     err
-//       ? err
-//       : console.log(data);
-//   });
-
-// };
-// getRoleTitle ();
-//inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES.
