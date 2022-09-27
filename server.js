@@ -172,8 +172,14 @@ function addDepartment() {
 }
 
 function addRole() {
-    //object that holds the index of departments
-    let deptList = db.query()
+    //object that holds the index of departments -- but how to pass this in to the choices???
+    // let deptList = db.query("SELECT name FROM department", (err, data) =>
+    // err
+    //   ? err
+    //   : console.log(data));
+    // // deptList;
+    // console.log(data);
+    
   inquirer
     .prompt([
       {
@@ -187,10 +193,11 @@ function addRole() {
         name: "salary",
       },
       {
-        type: "number",
+        type: "list",
         message: "What department is the role in?",
-        //how to create an index of the current departments?
-        name: "deptId",
+        name: "dept",
+        //how to create an index of the current departments? then how do I get it's id for the perameters needed to create an employee??
+        choices: ["???", "???", "????"],
       },
     ])
     .then((answer) => {
