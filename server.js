@@ -29,9 +29,8 @@ app.use((req, res) => {
   res.status(404).end();
 });
 
-//view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
+//initializing function
 
-//inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES.
 function init() {
   inquirer
     .prompt([
@@ -58,8 +57,6 @@ function init() {
       },
     ])
     .then((answers) => {
-      //   console.log(answers);
-      //   console.log(answers.userSelect);
 
       let rootQ = answers.userSelect;
       switch (rootQ) {
@@ -115,8 +112,9 @@ function init() {
     });
 }
 
+//VIEW Functions
 function viewAllDepartments() {
-  db.query("SELECT * FROM department", function (err, results) {
+  db.query(`SELECT * FROM department`, function (err, results) {
     console.log("\n");
     console.table("All Departments", results);
     console.log("\n");
@@ -125,7 +123,7 @@ function viewAllDepartments() {
 }
 
 function viewAllRoles() {
-  db.query("SELECT * FROM role", function (err, results) {
+  db.query(`SELECT * FROM role`, function (err, results) {
     console.log("\n");
     console.table("Employee Roles", results);
     console.log("\n");
@@ -134,7 +132,7 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
-  db.query("SELECT * FROM employees", function (err, results) {
+  db.query(`SELECT * FROM employees`, function (err, results) {
     console.log("\n");
     console.table("Employee List", results);
     console.log("\n");
@@ -142,7 +140,7 @@ function viewAllEmployees() {
   });
 }
 
-//add functions
+//ADD functions
 function addDepartment() {
   inquirer
     .prompt([
@@ -153,12 +151,9 @@ function addDepartment() {
       },
     ])
     .then((answer) => {
-      //   console.log(answer);
-      //   console.log(answer.newDept);
 
       db.query(
-        "INSERT INTO department(name) VALUES (?)",
-        answer.newDept,
+        `INSERT INTO department (name) VALUES ('${answer.newDept}')`,
         (err, data) =>
           err
             ? err
@@ -172,14 +167,13 @@ function addDepartment() {
 }
 
 function addRole() {
-    //object that holds the index of departments -- but how to pass this in to the choices???
-    // let deptList = db.query("SELECT name FROM department", (err, data) =>
-    // err
-    //   ? err
-    //   : console.log(data));
-    // // deptList;
-    // console.log(data);
-    
+    //so user can see the departments/ids
+    db.query(`SELECT * FROM department`, function (err, results) {
+        console.log("\n");
+        console.table("Track department ID for New Role", results);
+        console.log("\n");
+      });
+
   inquirer
     .prompt([
       {
@@ -193,43 +187,37 @@ function addRole() {
         name: "salary",
       },
       {
-        type: "list",
-        message: "What department is the role in?",
+        type: "number",
+        message: "What is the deptarment id you are adding to?",
         name: "dept",
-        //how to create an index of the current departments? then how do I get it's id for the perameters needed to create an employee??
-        choices: ["???", "???", "????"],
       },
     ])
     .then((answer) => {
-      //   console.log(answer);
-      //   console.log(`'${answer.newRole}'`);
-      //   console.log(answer.salary);
-      //   console.log(answer.deptId);
 
       db.query(
-        "INSERT INTO role (title, salary, department_id)VALUES " +
-          "(" +
-          "'" +
-          answer.newRole +
-          "'" +
-          ", " +
-          answer.salary +
-          ", " +
-          answer.deptId +
-          ")",
+        `INSERT INTO role (title, salary, department_id) VALUES ('${answer.newRole}', ${answer.salary}, '${answer.dept}')`,
         (err, data) =>
           err
             ? err
-            : console.log(
-                "\n Sorry, there ware a problem with your request. \n"
-              )
+            : console.log("\n New role added successfully. \n")
       );
-      console.log("\n New role added successfully. \n");
       init();
     });
 }
 
 function addEmployee() {
+    //view roles for reference
+    db.query(`SELECT * FROM role`, function (err, results) {
+        console.log("\n");
+        console.table("Track Role ID for new Employee", results);
+        console.log("\n");
+      });
+      //view managers for reference
+      db.query(`SELECT * FROM employees WHERE manager_id IS NULL`, function (err, results) {
+        console.log("\n");
+        console.table("Manager List", results);
+        console.log("\n");
+      });
   inquirer
     .prompt([
       {
@@ -246,55 +234,24 @@ function addEmployee() {
         type: "number",
         message: "What is their role id?",
         //how to create an index of the current departments?
-        name: "roleID",
+        name: "roleId",
       },
       {
         type: "number",
         message: "What is their manager's id?",
         //how to create an index of the managers?
-        name: "managerID",
+        name: "managerId",
       },
     ])
     .then((answer) => {
-      //   console.log(answer);
-      //   console.log(`'${answer.newRole}'`);
-      //   console.log(answer.salary);
-      //   console.log(answer.deptId);
 
       db.query(
-        "INSERT INTO employees (first_name, last_name, role_id)VALUES " +
-          "(" +
-          "'" +
-          answer.firstName +
-          "'" +
-          ", " +
-          answer.lastName +
-          ", " +
-          answer.roleID +
-          ")",
+        `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${answer.firstName}', '${answer.lastName}', '${answer.roleId}', '${answer.managerId}')`,
         (err, data) =>
           err
             ? err
-            : console.log(
-                "\n Sorry, there ware a problem with your request. \n"
-              )
+            : console.log("\n New employee added successfully. \n")
       );
-
-        db.query(
-            "UPDATE employees SET manager_id = " +
-              answer.managerID +
-              " WHERE last_name = " +
-              answer.lastName,
-            (err, data) =>
-              err
-                ? err
-                : console.log(
-                    "\n Sorry, there ware a problem with your request. \n"
-                  )
-          );
-
-      console.log("\n New employee added successfully. \n");
-
       init();
     });
 }
@@ -319,6 +276,22 @@ function leaveLibrary() {
   process.exit();
 }
 
+init();
+
+//view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
+
+//testing data returned
+// let getRoleTitle = function () {
+//   db.query(`SELECT title FROM role`, (err, data) => {
+//     err
+//       ? err
+//       : console.log(data);
+//   });
+
+// };
+// getRoleTitle ();
+//inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES.
+
 //delete route
 // db.query(`DELETE FROM employees WHERE id = ?`, 3, (err, result) => {
 //     if (err) {
@@ -326,4 +299,3 @@ function leaveLibrary() {
 //     }
 //     console.log(result);
 //   });
-init();
