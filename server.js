@@ -21,7 +21,6 @@ const db = mysql.createConnection(
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   },
-  console.log(`Connected to the employee_db database.`)
 );
 
 //error catching for middleware
@@ -157,9 +156,7 @@ function addDepartment() {
         (err, data) =>
           err
             ? err
-            : console.log(
-                "\n Sorry, there ware a problem with your request. \n"
-              )
+            : console.log(err)
       );
       console.log("\n New department added successfully. \n");
       init();
@@ -170,8 +167,7 @@ function addRole() {
     //so user can see the departments/ids
     db.query(`SELECT * FROM department`, function (err, results) {
         console.log("\n");
-        console.table("Track department ID for New Role", results);
-        console.log("\n");
+        console.table("Available Departments for New Role", results);
       });
 
   inquirer
@@ -199,8 +195,9 @@ function addRole() {
         (err, data) =>
           err
             ? err
-            : console.log("\n New role added successfully. \n")
+            : console.log(err)
       );
+      console.log("\n New role added successfully. \n")
       init();
     });
 }
@@ -209,14 +206,12 @@ function addEmployee() {
     //view roles for reference
     db.query(`SELECT * FROM role`, function (err, results) {
         console.log("\n");
-        console.table("Track Role ID for new Employee", results);
-        console.log("\n");
+        console.table("Available Roles for the New Employee", results);
       });
       //view managers for reference
       db.query(`SELECT * FROM employees WHERE manager_id IS NULL`, function (err, results) {
         console.log("\n");
-        console.table("Manager List", results);
-        console.log("\n");
+        console.table("Available Managers for the New Employee", results);
       });
   inquirer
     .prompt([
@@ -233,13 +228,11 @@ function addEmployee() {
       {
         type: "number",
         message: "What is their role id?",
-        //how to create an index of the current departments?
         name: "roleId",
       },
       {
         type: "number",
-        message: "What is their manager's id?",
-        //how to create an index of the managers?
+        message: "What is their manager's employee id?",
         name: "managerId",
       },
     ])
@@ -250,22 +243,87 @@ function addEmployee() {
         (err, data) =>
           err
             ? err
-            : console.log("\n New employee added successfully. \n")
+            : console.log(err)
       );
+      console.log("\n New employee added successfully. \n")
       init();
     });
 }
 //delete functions
 function deleteDepartment() {
-  db.query();
-}
+    db.query(`SELECT * FROM department`, function (err, results) {
+        console.log("\n");
+        console.table("All Departments", results);
+      });
+    inquirer
+    .prompt([
+      {
+        type: "number",
+        message: "What department are you deleting? Please type the id number.",
+        name: "Dept",
+      },
+    ])
+    .then((answer) => {
+        db.query(`DELETE FROM department WHERE department_id = ?`, answer.Dept, 
+        (err, data) =>
+          err
+            ? err
+            : console.log(err)
+            );
+            console.log("\n Department deleted successfully. \n")
+            init();
+          });
+      }
+
 
 function deleteRole() {
-  db.query();
+    db.query(`SELECT * FROM role`, function (err, results) {
+        console.log("\n");
+        console.table("All Roles", results);
+      });
+    inquirer
+    .prompt([
+      {
+        type: "number",
+        message: "What role are you deleting? Please type the id number.",
+        name: "roleId",
+      },
+    ])
+    .then((answer) => {
+        db.query(`DELETE FROM role WHERE role_id = ?`, answer.roleId, 
+        (err, data) =>
+          err
+            ? err
+            : console.log(err)
+            );
+            console.log("\n Role deleted successfully. \n")
+            init();
+          });
 }
 
 function deleteEmployee() {
-  db.query();
+    db.query(`SELECT * FROM employees`, function (err, results) {
+        console.log("\n");
+        console.table("All Employees", results);
+      });
+    inquirer
+    .prompt([
+      {
+        type: "number",
+        message: "What employee are you removing? Please type the id number.",
+        name: "empId",
+      },
+    ])
+    .then((answer) => {
+        db.query(`DELETE FROM role WHERE employee_id = ?`, answer.empId, 
+        (err, data) =>
+          err
+            ? err
+            : console.log(err)
+            );
+            console.log("\n Employee records deleted successfully. \n")
+            init();
+          });
 }
 
 //leave library
@@ -291,11 +349,3 @@ init();
 // };
 // getRoleTitle ();
 //inquirer questions -- will need a switch statement for each to do the queries and the CREATES/DELETES.
-
-//delete route
-// db.query(`DELETE FROM employees WHERE id = ?`, 3, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     console.log(result);
-//   });
