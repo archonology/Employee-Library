@@ -42,7 +42,7 @@ function init() {
           "view all roles",
           "view all employees",
           "view all managers",
-          "view employees by department",
+        //   "view employees by department",
           new inquirer.Separator(),
           "add a department",
           "add a role",
@@ -423,7 +423,7 @@ function deleteEmployee() {
       },
     ])
     .then((answer) => {
-        db.query(`DELETE FROM role WHERE employee_id = ?`, answer.empId, 
+        db.query(`DELETE FROM employees WHERE employee_id = ?`, answer.empId, 
         (err, data) =>
           err
             ? err
