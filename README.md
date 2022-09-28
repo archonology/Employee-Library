@@ -11,6 +11,9 @@
 #### [Questions](#questions)
 #### [License Info](#license-info)
 
+## Screenshot
+![program screenshot](./assests/Screen%20Shot%202022-09-28%20at%208.53.05%20AM.png)
+
 ## Description
 This program allows the user to seed and administer an employee library. Department, role, and employees can be tracked, added, deleted, and updated.  It is useful to be able to administer large databases that are inter-connected via a simple, backend program. 
     
