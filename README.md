@@ -12,7 +12,7 @@
 #### [License Info](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#license-info)
 
 ## Description
-This program allows the user to seed and administer a n employee library. Department, role, and employees can be tracked, added, deleted, and updated.  It is useful to be able to administer large databases that are interconnected via a simple program. 
+This program allows the user to seed and administer an employee library. Department, role, and employees can be tracked, added, deleted, and updated.  It is useful to be able to administer large databases that are inter-connected via a simple, backend program. 
     
 ## Installation
 This program is run through Node.js in the terminal. Dependencies you will need include: Dotenv, Express, MySQL, Inquirer, and  Console.table. 
