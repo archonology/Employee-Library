@@ -3,13 +3,13 @@
 ## Links
 [Click here to watch a video tutorial on Youtube](https://youtu.be/r-aP_ufH47U)    
 ## Table of Contents:
-#### [Description](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#description)
-#### [Installation](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#installation)
-#### [Usage Info](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#usage-info)
-#### [Constribution Guidelines](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#constribution-guidelines)
-#### [Test Instructions](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#test-instructions)
-#### [Questions](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#questions)
-#### [License Info](https://github.com/archonology/Pro-Readme-Generator/blob/main/README.md#license-info)
+#### [Description](#description)
+#### [Installation](#installation)
+#### [Usage Info](#usage-info)
+#### [Constribution Guidelines](#constribution-guidelines)
+#### [Test Instructions](#test-instructions)
+#### [Questions](#questions)
+#### [License Info](#license-info)
 
 ## Description
 This program allows the user to seed and administer an employee library. Department, role, and employees can be tracked, added, deleted, and updated.  It is useful to be able to administer large databases that are inter-connected via a simple, backend program. 
